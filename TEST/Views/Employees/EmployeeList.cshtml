@@ -1,0 +1,188 @@
+﻿
+@{
+    ViewBag.Title = "EmployeeList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+
+    <link href="~/Content/mobilepopup.min.css" rel="stylesheet" />
+}
+<h2>EmployeeList</h2>
+<result>
+    @Html.Action("EmployeeListPartialView", "employees", new { page = 1 })
+
+</result>
+
+
+
+
+
+
+
+
+@section scripts
+{
+
+    <script src="~/Scripts/mobilepopup.min.js"></script>
+    <script>
+        $(function () {
+
+            @*$("body").on("click", ".edit", function () {
+                var employeeID = $(this).data("employeeid");
+                $('#aaa').load('@Url.Action("EmployeeDetailEdit", "Employees",new {area=""})?EmployeeID=' + employeeID,function () {
+
+
+                    $.mobilepopup({
+                        targetblock: ".pop-up4",
+                        width: "800px",
+                        height: "300px"
+                    });
+                    return false;
+
+
+
+                })
+            });*@
+            $("body").on("click", ".edit", function () {
+                var employeeID = $(this).data("employeeid");
+                $.ajax({
+                    method: 'Get',
+                    url: '@Url.Action("EmployeeDetailEdit", "Employees",new {area=""})',
+                    data: { "EmployeeID": employeeID },
+                    headers: {
+
+                        'RequestVerificationToken': 'InAt6tiOC0LnyL2rFVVUGms4fD6euZS1auKcvEC6Afxoq8RKWf6bjimzCvgEpglYgIPEX-D4ah9UkbbucnThxgwMQfqVxEC5MMUmt5NOjRA1:PEPZT_q8tQLJXKriTX24KbXWfQ_JqlarTm3iLiJlrBKqoTnvXkywJ-CS2_lQOnlvK6p1_ayveELs3r9Oe889cTx9B3C-G0E9D2D59gaLllaekL5SAuWM38M44KbbFPYW0'
+                    },
+                    datatype: 'Json',
+                    success: function (data) {
+
+
+
+
+                        document.getElementById("abc").innerHTML = data;
+                        document.getElementById("tit").innerText = '修改員工詳細資料';
+
+
+                        $.mobilepopup({
+                            targetblock: ".pop-up4",
+                            width: "800px",
+                            height: "300px"
+
+
+                        })
+                    },
+                    error: function () {
+
+
+                        alert("伺服器錯誤 請聯絡PAYNOW")
+
+                    }
+
+
+                })
+
+
+
+
+            });
+
+            $("body").on("click", ".Details", function () {
+                var employeeID = $(this).data("employeeid");
+                $.ajax({
+                    method: 'Get',
+                    url: '@Url.Action("EmployeeDetail", "Employees",new {area=""})',
+                    data: { "EmployeeID": employeeID },
+                    headers: {
+
+                        'RequestVerificationToken': 'InAt6tiOC0LnyL2rFVVUGms4fD6euZS1auKcvEC6Afxoq8RKWf6bjimzCvgEpglYgIPEX-D4ah9UkbbucnThxgwMQfqVxEC5MMUmt5NOjRA1:PEPZT_q8tQLJXKriTX24KbXWfQ_JqlarTm3iLiJlrBKqoTnvXkywJ-CS2_lQOnlvK6p1_ayveELs3r9Oe889cTx9B3C-G0E9D2D59gaLllaekL5SAuWM38M44KbbFPYW0'
+                    },
+                    datatype: 'Json',
+                    success: function (data) {
+
+
+
+
+                        document.getElementById("abc").innerHTML = data;
+                        document.getElementById("tit").innerText = '員工詳細資料';
+
+
+                        $.mobilepopup({
+                            targetblock: ".pop-up4",
+                            width: "800px",
+                            height: "300px"
+
+
+                        })
+                    },
+                    error: function () {
+
+
+                        alert("伺服器錯誤 請聯絡PAYNOW")
+
+                    }
+
+
+                })
+
+
+
+
+            });
+
+
+
+             
+
+         $("body").on("click", ".Delete", function () {
+                     var employeeID = $(this).data("employeeid");
+                         if (confirm("確定要刪除該員工資料嗎")) {
+                           $.ajax({
+                        method: 'Post',
+                        url: '@Url.Action("DeleteEmployee", "Employees", new {area= "" })',
+                               data: { "EmployeeID": employeeID },
+                        headers: {
+
+                            'RequestVerificationToken': '@CommonRazorFunction.GetAntiForgeryToken()'
+                        },
+                        datatype: 'Json',
+                        success: function (data) {
+                            if (data == "S") {
+                                alert('刪除成功');
+                                location.reload();
+
+                            }
+                            else {
+                                alert('刪除成失敗');
+
+
+                            }
+                        }
+                        ,
+                        error: function () {
+                            alert('連線失敗');
+
+
+
+                        }
+                    })
+
+
+                         }
+
+
+
+                    })
+
+
+        })
+
+    </script>
+}
+<div class="pop-up4" style="display: none;">
+    <div class="header"><i class="fas fa-pen-square"></i><span id="tit">修改分店資料</span></div>
+
+    <div class="content aaa" id="abc">
+
+    </div>
+</div>
