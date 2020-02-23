@@ -1,9 +1,12 @@
 ﻿@model TEST.Models.Employees
+@{
 
-@using (Html.BeginForm("AddEmployeeDetail", "Employees"))
+    Layout = null;
+}
+@using (Html.BeginForm("AddEmployeeDetail", "Employees",FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Employees</h4>
         <hr />
@@ -130,7 +133,7 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ReportsTo, "ReportsTo", htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.DropDownList("ReportsTo", null, htmlAttributes: new { @class = "form-control" })
+                @Html.DropDownList("ReportsTo", (SelectList)ViewBag.Sales, htmlAttributes: new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.ReportsTo, "", new { @class = "text-danger" })
             </div>
         </div>

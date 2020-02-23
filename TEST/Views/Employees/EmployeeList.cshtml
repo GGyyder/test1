@@ -8,8 +8,9 @@
 
     <link href="~/Content/mobilepopup.min.css" rel="stylesheet" />
 }
+<input id="message" type="hidden" value="@ViewBag.message">
 <h2>EmployeeList</h2>
-<result>
+<result id="result">
     @Html.Action("EmployeeListPartialView", "employees", new { page = 1 })
 
 </result>
@@ -28,6 +29,11 @@
     <script>
         $(function () {
 
+            var message = $('#message').val();
+            if (message != "") {
+                alert(message);
+
+            }
             @*$("body").on("click", ".edit", function () {
                 var employeeID = $(this).data("employeeid");
                 $('#aaa').load('@Url.Action("EmployeeDetailEdit", "Employees",new {area=""})?EmployeeID=' + employeeID,function () {
@@ -44,6 +50,49 @@
 
                 })
             });*@
+            $("body").on("click", ".page", function () {
+                var page = $(this).data("page");
+                $('result').load('@Url.Action("EmployeeListPartialView", "employees",new { area=""})?page=' + page)
+
+            });
+            $("body").on("click", "#create", function () {
+           
+                $.ajax({
+                    method: 'Get',
+                    url: '@Url.Action("AddEmployeeDetail", "Employees",new {area=""})',
+               
+                    datatype: 'Json',
+                    success: function (data) {
+
+
+
+
+                        document.getElementById("abc").innerHTML = data;
+                        document.getElementById("tit").innerText = '新增員工';
+
+
+                        $.mobilepopup({
+                            targetblock: ".pop-up4",
+                            width: "800px",
+                            height: "300px"
+
+
+                        })
+                    },
+                    error: function () {
+
+
+                        alert("伺服器錯誤 請聯絡PAYNOW")
+
+                    }
+
+
+                })
+
+
+
+
+            });
             $("body").on("click", ".edit", function () {
                 var employeeID = $(this).data("employeeid");
                 $.ajax({

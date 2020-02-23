@@ -111,7 +111,7 @@
                         MemoryStream ms = new MemoryStream();
                         ms.Write(photo, 78, photo.Length - 78);
                         string imageBase64 = Convert.ToBase64String(ms.ToArray());
-                        imageData = string.Format("data:image/gif;base64,{0}", imageBase64);
+                        imageData = string.Format("data:image/jpg;base64,{0}", imageBase64);
 
                     }
 
@@ -124,15 +124,18 @@
             <td>
                 @Html.DisplayFor(modelItem => item.PhotoPath)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Employees2.LastName)
-            </td>
+        
             <td>
                 <div class="edit btn btn-default" data-employeeid="@item.EmployeeID">Edit</div>
                 <div class="Details btn btn-success" data-employeeid="@item.EmployeeID">Details</div>
                 <div class="Delete btn btn-danger" data-employeeid="@item.EmployeeID">Delete</div>
             </td>
         </tr>
+    }
+
+    @for (int i = 1; i <=Convert.ToInt32(ViewBag.Totalpage); i++)
+    {
+        <span class="page" data-page="@i">@i</span>
     }
 
 </table>

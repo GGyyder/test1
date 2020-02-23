@@ -3,157 +3,173 @@
 
     Layout = null;
 }
-<div>
-    <h4>Employees</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.LastName)
-        </dt>
+@using (Html.BeginForm("UpEmployee", "Employees", FormMethod.Post, new { enctype = "multipart/form-data", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <h4>Employees</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.HiddenFor(c=>c.EmployeeID)
+            </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.LastName)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.LastName)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.LastName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.FirstName)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.FirstName)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.FirstName)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.Title)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.Title)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TitleOfCourtesy)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.TitleOfCourtesy)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.TitleOfCourtesy)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.TitleOfCourtesy)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.BirthDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.BirthDate)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.BirthDate)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.BirthDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.HireDate)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.HireDate)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.HireDate)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.HireDate)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Address)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.Address)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.Address)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.City)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.City)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.City)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.City)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Region)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Region)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.Region)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.Region)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PostalCode)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.PostalCode)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.PostalCode)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.PostalCode)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Country)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Country)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.Country)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.Country)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.HomePhone)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.HomePhone)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.HomePhone)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.HomePhone)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Extension)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Extension)
+            </dt>
 
-        <dd>
-            @Html.EditorFor(model => model.Extension)
-        </dd>
+            <dd>
+                @Html.EditorFor(model => model.Extension)
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Photo)
-        </dt>
+            <dt>
+                @Html.DisplayNameFor(model => model.Photo)
+            </dt>
 
-        <dd>
-            <td>
-                @{
-                    byte[] photo = Model.Photo;
-                    string imageData = null;
-                    if (photo != null)
-                    {
-                        MemoryStream ms = new MemoryStream();
-                        ms.Write(photo, 78, photo.Length - 78);
-                        string imageBase64 = Convert.ToBase64String(ms.ToArray());
-                        imageData = string.Format("data:image/gif;base64,{0}", imageBase64);
+            <dd>
+                <td>
+                    @{
+                        byte[] photo = Model.Photo;
+                        string imageData = null;
+                        if (photo != null)
+                        {
+                            MemoryStream ms = new MemoryStream();
+                            ms.Write(photo, 78, photo.Length - 78);
+                            string imageBase64 = Convert.ToBase64String(ms.ToArray());
+                            imageData = string.Format("data:image/gif;base64,{0}", imageBase64);
+
+                        }
 
                     }
+                    @Html.HiddenFor(c => c.Photo);
+                    <img src="@imageData">
+                    <input id="newphoto" type="file" name="newphoto" class="file">
+                </td>
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ReportsTo)
+            </dt>
 
-                }
-                <img src="@imageData">
-            </td>
-        </dd>
+            <dd>
+                @Html.DropDownList("ReportsTo", (SelectList)ViewBag.Sales, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.ReportsTo, "", new { @class = "text-danger" })
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Notes)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Notes)
-        </dt>
+            <dd>
+                @Html.EditorFor(model => model.Notes)
+            </dd>
 
-        <dd>
-            @Html.EditorFor(model => model.Notes)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.PhotoPath)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.PhotoPath)
-        </dt>
-
-        <dd>
-            @Html.EditorFor(model => model.PhotoPath)
-        </dd>
-
+            <dd>
+                @Html.EditorFor(model => model.PhotoPath)
+            </dd>
 
 
-    </dl>
-</div>
-<p>
-  <input type="submit" value="修改">
-</p>
+
+        </dl>
+    </div>
+    <p>
+        <input type="submit" value="修改">
+    </p>
+                        }
