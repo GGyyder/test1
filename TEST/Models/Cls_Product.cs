@@ -125,7 +125,55 @@ namespace TEST.Models
             }
 
         }
+        /// <summary>
+        /// 新增product (sql)
+        /// </summary>
+        /// <param name="products"></param>
+        /// <returns></returns>
+        public string Add_Product(List<Products> products)
+        {
+            SqlTransaction sqltrans = default(SqlTransaction);
+            string storeporcedure = "Add_Product";
 
+
+            using (SqlConnection conn = new SqlConnection((new Cls_SqlConnStr()).ConnStr))
+            {
+                conn.Open();
+                sqltrans = conn.BeginTransaction();
+                try
+                {
+                    foreach (Products product in products)
+                    {
+                        using (SqlCommand sqlcommand = new SqlCommand(storeporcedure, conn))
+                        {
+                            sqlcommand.Transaction = sqltrans;
+                            sqlcommand.CommandType = CommandType.StoredProcedure;
+                            sqlcommand.Parameters.Add("@ProductName", SqlDbType.NVarChar).Value = product.ProductName;
+                            sqlcommand.Parameters.Add("@SupplierID", SqlDbType.Int).Value = product.SupplierID;
+                            sqlcommand.Parameters.Add("@CategoryID", SqlDbType.Int).Value = product.CategoryID;
+                            sqlcommand.Parameters.Add("@QuantityPerUnit", SqlDbType.NVarChar).Value = product.QuantityPerUnit;
+                            sqlcommand.Parameters.Add("@UnitPrice", SqlDbType.Money).Value = product.UnitPrice;
+                            sqlcommand.Parameters.Add("@UnitsInStock", SqlDbType.SmallInt).Value = product.UnitsInStock;
+                            sqlcommand.Parameters.Add("@UnitsOnOrder", SqlDbType.SmallInt).Value = product.UnitsOnOrder;
+                            sqlcommand.Parameters.Add("@ReorderLevel", SqlDbType.SmallInt).Value = product.ReorderLevel;
+                            sqlcommand.Parameters.Add("@Discontinued", SqlDbType.Bit).Value = product.Discontinued;
+                            sqlcommand.ExecuteNonQuery();
+                        }
+                    }
+                    sqltrans.Commit();
+                    return "S";
+                }
+                catch (Exception ex)
+                {
+                    sqltrans.Rollback();
+                    return ex.Message;
+                }
+
+            }
+
+
+
+        }
 
 
 
