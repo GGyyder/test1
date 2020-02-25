@@ -13,6 +13,7 @@ namespace TEST.Controllers
 {
     public class ProductsapiController : ApiController
     {
+        
         // GET: api/Products
         public IEnumerable<Products> Get()
         {
@@ -95,15 +96,41 @@ namespace TEST.Controllers
                 return Request.CreateResponse(HttpStatusCode.BadRequest, "fail");
             }
         }
-
+        [AcceptVerbs("Put")]
         // PUT: api/Products/5
-        public void Put(int id, [FromBody]string value)
+        public HttpResponseMessage Put([FromBody] Products product)
         {
+            Cls_Product cls_product = new Cls_Product();
+            string result = cls_product.Up_Product(product);
+            if (result == "S")
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "success");
+
+
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "fail");
+            }
         }
 
         // DELETE: api/Products/5
-        public void Delete(int id)
+        [AcceptVerbs("Delete")]
+        public HttpResponseMessage DeleteProduct([FromBody] string productID)
         {
+            Cls_Product cls_product = new Cls_Product();
+            string result = cls_product.Del_Product(Convert.ToInt32(productID));
+            if (result == "S")
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "success");
+
+
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.BadRequest, "fail");
+            }
+
         }
     }
 }

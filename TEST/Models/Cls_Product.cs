@@ -18,7 +18,10 @@ namespace TEST.Models
          
 
 
-
+        /// <summary>
+        /// 獲取產品清單
+        /// </summary>
+        /// <returns></returns>
         public List<Products> GetAllProduct()
         {
             DataTable Dt = new DataTable();
@@ -67,6 +70,11 @@ namespace TEST.Models
         }
 
 
+        /// <summary>
+        /// 獲取產品
+        /// </summary>
+        /// <param name="productID">產品ID</param>
+        /// <returns></returns>
         public Products GetProduct(string productID)
         {
             DataTable Dt = new DataTable();
@@ -125,6 +133,9 @@ namespace TEST.Models
             }
 
         }
+
+
+
         /// <summary>
         /// 新增product (sql)
         /// </summary>
@@ -174,8 +185,97 @@ namespace TEST.Models
 
 
         }
+        /// <summary>
+        /// 刪除  product(SQL)
+        /// </summary>
+        /// <param name="productID"></param>
+        /// <returns></returns>
+        public string Del_Product(int productID)
+        {
+            SqlTransaction sqltrans = default(SqlTransaction);
+            string storeporcedure = "Del_Product";
 
 
+            using (SqlConnection conn = new SqlConnection((new Cls_SqlConnStr()).ConnStr))
+            {
+                conn.Open();
+                sqltrans = conn.BeginTransaction();
+                try
+                {
+                  
+                        using (SqlCommand sqlcommand = new SqlCommand(storeporcedure, conn))
+                        {
+                            sqlcommand.Transaction = sqltrans;
+                            sqlcommand.CommandType = CommandType.StoredProcedure;
+                            sqlcommand.Parameters.Add("@ProductID", SqlDbType.Int).Value = productID;
+                     
+                            sqlcommand.ExecuteNonQuery();
+                        }
+
+                    sqltrans.Commit();
+                    return "S";
+                }
+                catch (Exception ex)
+                {
+                    sqltrans.Rollback();
+                    return ex.Message;
+                }
+
+            }
+
+
+
+        }
+
+        /// <summary>
+        /// 修改 product (sql)
+        /// </summary>
+        /// <param name="product"></param>
+        /// <returns></returns>
+        public string Up_Product(Products product)
+        {
+            SqlTransaction sqltrans = default(SqlTransaction);
+            string storeporcedure = "Up_Product";
+
+
+            using (SqlConnection conn = new SqlConnection((new Cls_SqlConnStr()).ConnStr))
+            {
+                conn.Open();
+                sqltrans = conn.BeginTransaction();
+                try
+                {
+
+                    using (SqlCommand sqlcommand = new SqlCommand(storeporcedure, conn))
+                    {
+                        sqlcommand.Transaction = sqltrans;
+                        sqlcommand.CommandType = CommandType.StoredProcedure;
+                        sqlcommand.Parameters.Add("@ProductID", SqlDbType.NVarChar).Value = product.ProductID;
+                        sqlcommand.Parameters.Add("@ProductName", SqlDbType.NVarChar).Value = product.ProductName;
+                        sqlcommand.Parameters.Add("@SupplierID", SqlDbType.Int).Value = product.SupplierID;
+                        sqlcommand.Parameters.Add("@CategoryID", SqlDbType.Int).Value = product.CategoryID;
+                        sqlcommand.Parameters.Add("@QuantityPerUnit", SqlDbType.NVarChar).Value = product.QuantityPerUnit;
+                        sqlcommand.Parameters.Add("@UnitPrice", SqlDbType.Money).Value = product.UnitPrice;
+                        sqlcommand.Parameters.Add("@UnitsInStock", SqlDbType.SmallInt).Value = product.UnitsInStock;
+                        sqlcommand.Parameters.Add("@UnitsOnOrder", SqlDbType.SmallInt).Value = product.UnitsOnOrder;
+                        sqlcommand.Parameters.Add("@ReorderLevel", SqlDbType.SmallInt).Value = product.ReorderLevel;
+                        sqlcommand.Parameters.Add("@Discontinued", SqlDbType.Bit).Value = product.Discontinued;
+                        sqlcommand.ExecuteNonQuery();
+                    }
+
+                    sqltrans.Commit();
+                    return "S";
+                }
+                catch (Exception ex)
+                {
+                    sqltrans.Rollback();
+                    return ex.Message;
+                }
+
+            }
+
+
+
+        }
 
     }
 }
