@@ -115,11 +115,10 @@ namespace TEST.Controllers
         }
 
         // DELETE: api/Products/5
-        [AcceptVerbs("Delete")]
-        public HttpResponseMessage DeleteProduct([FromBody] string productID)
+        public HttpResponseMessage DeleteProduct([FromBody] DeleteModel model)
         {
             Cls_Product cls_product = new Cls_Product();
-            string result = cls_product.Del_Product(Convert.ToInt32(productID));
+            string result = cls_product.Del_Product(Convert.ToInt32(model.productID));
             if (result == "S")
             {
                 return Request.CreateResponse(HttpStatusCode.OK, "success");
@@ -132,5 +131,10 @@ namespace TEST.Controllers
             }
 
         }
+    }
+    public class DeleteModel
+    {
+        public string productID { get; set; }
+
     }
 }
